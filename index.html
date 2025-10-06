@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=DM+Serif+Display:ital@0;1&family=Dancing+Script:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <title>Anniversaire Enchanté pour RIM ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Quicksand", sans-serif;
+            overflow-x: hidden;
+            height: 100vh;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #d299c2 100%);
+            position: relative;
+        }
+
+        /* Conteneur principal responsive */
+        .container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            animation: gentleShift 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes gentleShift {
+            0% { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #d299c2 100%); }
+            100% { background: linear-gradient(135deg, #fed6e3 0%, #d299c2 50%, #a8edea 100%); filter: brightness(1.05); }
+        }
+
+        /* Instructions adaptatives */
+        .instruction {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: #ff6b9d;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(255, 107, 157, 0.6);
+            z-index: 10;
+            transition: opacity 0.5s ease, transform 0.3s ease;
+            max-width: 90%;
+            padding: 0 10px;
+        }
+
+        .instruction.hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+            pointer-events: none;
+        }
+
+        /* Particules optimisées pour mobile (moins nombreuses, animations fluides) */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: clamp(12px, 3vw, 18px);
+            animation: driftUp 8s linear infinite;
+            opacity: 0.7;
+            text-shadow: 0 0 4px currentColor;
+        }
+
+        .particle.heart::before { 
+            content: '💖'; 
+            color: #ff6b9d; 
+        }
+
+        .particle.star::before { 
+            content: '⭐'; 
+            color: #ffd93d; 
+        }
+
+        @keyframes driftUp {
+            0% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { 
+                transform: translateY(-100vh) rotate(180deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* Cœur central responsive et tactile */
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            user-select: none;
+            touch-action: manipulation; /* Améliore le tactile sur mobile */
+        }
+
+        .heart img {
+            width: clamp(50px, 15vw, 80px);
+            height: auto;
+            display: block;
+            animation: softBeat 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.5));
+            transition: filter 0.3s ease;
+        }
+
+        .heart:hover img,
+        .heart:active img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.8)) brightness(1.1);
+        }
+
+        @keyframes softBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Boîte de message responsive (slide-in depuis le bas sur mobile) */
+        .message {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            max-height: 85vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: clamp(20px, 5vw, 30px);
+            overflow-y: auto;
+            z-index: 20;
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+            scrollbar-width: thin;
+            scrollbar-color: #ff6b9d transparent;
+        }
+
+        .message::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .message::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .message::-webkit-scrollbar-thumb {
+            background: #ff6b9d;
+            border-radius: 3px;
+        }
+
+        .message.open {
+            transform: translateY(0);
+        }
+
+        .message h1 {
+            font-family: "Cinzel", serif;
+            font-size: clamp(1.8rem, 8vw, 2.5rem);
+            text-align: center;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(255, 107, 157, 0.3);
+            animation: subtleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtleGlow {
+            0% { text-shadow: 0 0 5px rgba(255, 107, 157, 0.3); }
+            100% { text-shadow: 0 0 10px rgba(255, 107, 157, 0.6); }
+        }
+
+        .message p {
+            font-size: clamp(14px, 4vw, 16px);
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .message .sincere {
+            text-align: right;
+            font-family: "Dancing Script", cursive;
+            font-size: clamp(16px, 5vw, 20px);
+            color: #ff6b9d;
+            margin-top: 20px;
+            text-shadow: 0 0 3px rgba(255, 107, 157, 0.3);
+        }
+
+        .message .sincere p {
+            margin: 5px 0;
+        }
+
+        /* États pour le cœur (descend quand ouvert) */
+        .heart.moved {
+            top: 20%;
+            transition: top 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Media queries pour mobile et tablette */
+        @media (max-width: 768px) {
+            .instruction {
+                top: 15%;
+                font-size: clamp(1rem, 5vw, 1.5rem);
+                padding: 0 5%;
+            }
+
+            .heart {
+                top: 40%;
+            }
+
+            .heart.moved {
+                top: 10%;
+            }
+
+            .message {
+                max-height: 90vh;
+                border-radius: 0;
+                padding: 20px;
+            }
+
+            .particles .particle {
+                font-size: clamp(10px, 2.5vw, 14px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .message h1 {
+                font-size: clamp(1.5rem, 7vw, 2rem);
+            }
+
+            .message p {
+                font-size: clamp(12px, 3.5vw, 14px);
+            }
+        }
+
+        /* Audio caché */
+        audio {
+            display: none;
+        }
+
+        /* Amélioration tactile */
+        .heart {
+            min-width: 60px;
+            min-height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <p class="instruction">Appuie sur le cœur pour découvrir ton message enchanté ! 💖</p>
+    <div class="container">
+        <div class="particles" id="particles"></div>
+        <div class="heart" id="heart">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg" alt="Cœur enchanté">
+        </div>
+        <div class="message" id="message">
+            <h1>Joyeux Anniversaire, mon amour RIM !</h1>
+            <p>
+                <span>
+                    &emsp; Que cet anniversaire soit aussi magique et unique que l'amour que j'ai pour toi. Tu illumines ma vie comme une étoile dans un ciel enchanté, et chaque jour avec toi est une aventure remplie de tendresse et de rêves partagés. Joyeux anniversaire, ma petite RIM adorée – que cette année nous apporte encore plus de moments inoubliables ensemble !
+                </span>
+                <br><br>
+                <span>
+                    &emsp; J'aurais voulu t'offrir le monde entier, mais rien ne vaut le lien profond et romantique que nous partageons. Puisses-tu briller toujours plus fort, comme un sortilège d'amour éternel.
+                </span>      
+            </p>
+            <br>
+            <div class="sincere">
+                <p style="font-weight: bold;">Avec tout mon amour et un respect infini,</p>
+                <p>Taha 💖</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio : Fichier local "happy-birthday.mp3" (assurez-vous qu'il est dans le même dossier que ce HTML) -->
+    <audio id="bgMusic">
+        <source src="happy-birthday.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <script>
+        // Vanilla JS pour interactions
+        const messageState = document.getElementById('message');
+        const heart = document.getElementById('heart');
+        const instruction = document.querySelector('.instruction');
+        const container = document.querySelector('.container');
+        const bgMusic = document.getElementById('bgMusic');
+        const particlesContainer = document.getElementById('particles');
+        let isOpen = false;
+
+        // Configuration audio
+        bgMusic.loop = false;
+        bgMusic.volume = 0.7;
+
+        // Vérification si l'audio charge (fallback si échec)
+        bgMusic.addEventListener('canplaythrough', () => {
+            console.log('Audio chargé avec succès !');
+        });
+        bgMusic.addEventListener('error', (e) => {
+            console.error('Erreur chargement audio :', e);
+            console.log('Assurez-vous que "happy-birthday.mp3" est dans le même dossier que le HTML.');
+        });
+
+        // Gestion du clic/tap sur le cœur
+        heart.addEventListener('click', toggleMessage);
+        heart.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            toggleMessage();
+        });
+
+        function toggleMessage() {
+            if (isOpen) {
+                // Fermer
+                messageState.classList.remove('open');
+                heart.classList.remove('moved');
+                instruction.classList.remove('hidden');
+                container.style.background = 'linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #d299c2 100%)';
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+                isOpen = false;
+                console.log('Fermant le message enchanté');
+            } else {
+                // Ouvrir
+                messageState.classList.add('open');
+                heart.classList.add('moved');
+                instruction.classList.add('hidden');
+                container.style.background = 'linear-gradient(135deg, #fed6e3 0%, #d299c2 50%, #a8edea 100%)';
+                
+                // Jouer l'audio avec gestion d'erreur
+                if (bgMusic.readyState >= 2) { // Si audio prêt
+                    bgMusic.play().catch(e => {
+                        console.log('Audio bloqué par le navigateur (essayez de cliquer à nouveau ou activez le son) :', e);
+                    });
+                } else {
+                    console.log('Audio non chargé – Vérifiez le fichier MP3.');
+                }
+                isOpen = true;
+                console.log('Ouvrant le message enchanté – Tentative de lecture de "Happy Birthday"');
+            }
+        }
+
+        // Génération de particules optimisée (moins sur mobile)
+        function createParticles() {
+            const isMobile = window.innerWidth <= 768;
+            const count = isMobile ? 8 : 15; // Moins sur mobile pour performance
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = `particle ${Math.random() > 0.5 ? 'heart' : 'star'}`;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Nettoyage périodique pour éviter l'accumulation
+        function refreshParticles() {
+            particlesContainer.innerHTML = '';
+            createParticles();
+        }
+
+        createParticles();
+        setInterval(refreshParticles, 4000); // Régénérer toutes les 4s
+
+        // Amélioration pour orientation mobile
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                heart.style.top = isOpen ? '10%' : '40%';
+            }
+        });
+    </script>
+</body>
+</html>
